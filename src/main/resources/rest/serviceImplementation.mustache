@@ -1,0 +1,87 @@
+package {{javaPackageName}};
+
+
+import {{contextPackage}}.in.*;
+import {{contextPackage}}.output.*;
+import {{converterPackage}}.*;
+import {{objectPackage}}.*;
+import {{builderPackage}}.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.List;
+import java.util.Arrays;
+
+@Slf4j
+@Component
+public class {{javaClassName}}Impl implements {{javaClassName}} {
+
+private DataSource dataSource;
+
+
+{{#procedureList}}
+
+    private {{storedProcedureClassName}}Out {{javaProcedureName}}({{storedProcedureClassName}}In ctx, Connection connection) {
+    try {
+    final CallableStatement ocs = connection.prepareCall({{& callString}});
+    try {
+    {{#bindParams}}
+        {{#inParam}}
+            {{& paramSet}}
+        {{/inParam}}
+        {{#outParam}}
+            {{& regOutput}}
+        {{/outParam}}
+    {{/bindParams}}
+    {{#loggingMethod}}
+        {{loggingMethod}}("{{javaClassName}}.{{javaProcedureName}} called");
+    {{/loggingMethod}}
+    ocs.execute();
+    {{#loggingMethod}}
+        {{loggingMethod}}("{{javaClassName}}.{{javaProcedureName}} executed");
+    {{/loggingMethod}}
+
+    {{storedProcedureClassName}}Out ctxOut = new {{storedProcedureClassName}}Out();
+    {{#bindParams}}
+        {{#outParam}}
+            {{& paramGet}}
+        {{/outParam}}
+    {{/bindParams}}
+    return  ctxOut;
+    } finally  {
+    {{^hasResultSetParam}}
+        ocs.close();
+    {{/hasResultSetParam}}
+    {{#hasResultSetParam}}
+        // ResultSet as return parameter, not closing connection
+    {{/hasResultSetParam}}
+    }
+    } catch (SQLException e) {
+    throw new StoredProcedureCallException(e);
+    }
+    }
+
+
+    {{^hasResultSetParam}}
+        public  {{storedProcedureClassName}}Out {{javaProcedureName}}({{storedProcedureClassName}}In input) {
+        try (Connection conn = dataSource.getConnection()) {
+        return {{javaProcedureName}}(input,  conn);
+        } catch (SQLException e) {
+        throw new StoredProcedureCallException(e);
+        }
+        }
+    {{/hasResultSetParam}}
+
+
+
+{{/procedureList}}
+
+@Autowired
+public void setDataSource(DataSource dataSource) {
+this.dataSource = dataSource;
+}
+}

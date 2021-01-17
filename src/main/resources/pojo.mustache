@@ -1,0 +1,23 @@
+{{#packageName}}
+    package {{packageName}};
+{{/packageName}}
+
+{{#imports}}
+    import {{.}};
+{{/imports}}
+
+{{#comment}}
+    /**
+    {{& comment}}
+    */
+{{/comment}}
+import lombok.Data;
+
+@Data
+public class {{className}} {
+
+{{#fields}}
+    private {{& fieldType}} {{fieldName}};
+{{/fields}}
+
+}

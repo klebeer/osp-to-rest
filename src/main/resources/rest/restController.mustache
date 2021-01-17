@@ -1,0 +1,36 @@
+package {{restPackage}};
+
+import {{contextPackage}}.in.*;
+import {{contextPackage}}.output.*;
+import {{objectPackage}}.*;
+import {{builderPackage}}.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import io.swagger.v3.oas.annotations.Operation;
+
+@RestController
+@RequestMapping(value = "/{{javaVariableName}}")
+public class {{javaClassName}}RestController {
+
+private {{javaClassName}} {{javaVariableName}};
+
+{{#procedureList}}
+    {{^hasResultSetParam}}
+        @Operation(summary = "{{javaProcedureName}}", description = "{{procedureDescription}}" )
+        @PostMapping("/{{javaProcedureName}}")
+        {{storedProcedureClassName}}Out {{javaProcedureName}}(@RequestBody {{storedProcedureClassName}}In input){
+        return {{javaVariableName}}.{{javaProcedureName}}(input);
+        }
+    {{/hasResultSetParam}}
+{{/procedureList}}
+
+
+@Autowired
+public void set{{javaClassName}}({{javaClassName}} {{javaVariableName}}) {
+this.{{javaVariableName}} = {{javaVariableName}};
+}
+}

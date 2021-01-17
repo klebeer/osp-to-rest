@@ -1,0 +1,26 @@
+package {{builderPackage}};
+
+import {{contextPackage}}.in.*;
+import {{contextPackage}}.output.*;
+import {{objectPackage}}.*;
+
+
+import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.List;
+import java.util.Arrays;
+
+public interface {{javaClassName}} {
+
+{{#loggingInitializer}}
+    {{& loggingInitializer}}
+{{/loggingInitializer}}
+
+{{#procedureList}}
+    {{^hasResultSetParam}}
+        {{storedProcedureClassName}}Out {{javaProcedureName}}({{storedProcedureClassName}}In input);
+    {{/hasResultSetParam}}
+{{/procedureList}}
+
+}

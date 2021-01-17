@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+{{projectName}}:
+image: {{projectName}}:{{artifactVersion}}
+container_name: {{projectName}}
+ports:
+- "9081:9081"
+build:
+context: .
+dockerfile: Dockerfile
+args:
+- appJar={{artifactId}}-rest-{{artifactVersion}}-exec.jar

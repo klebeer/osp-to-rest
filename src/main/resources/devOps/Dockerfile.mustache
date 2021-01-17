@@ -1,0 +1,8 @@
+FROM amazoncorretto:11.0.7
+
+ARG appJar
+ENV APP_JAR=${{=<% %>=}}{appJar}<%={{ }}=%>
+COPY target/${{=<% %>=}}{appJar}<%={{ }}=%> /usr/app/
+WORKDIR /usr/app
+RUN echo "java -jar $APP_JAR"
+ENTRYPOINT java  -Xms1G -Xmx1G -Dspring.profiles.active=dev -Doracle.jdbc.timezoneAsRegion=false -jar $APP_JAR
