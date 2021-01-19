@@ -14,6 +14,7 @@ public class OspToRest {
 
         MavenPomGenerator.generate(configuration);
         RestGenerator.generate(configuration);
+        DevOpsGenerator.generate(configuration);
         EntityObjectGenerator entityObjectGenerator = new EntityObjectGenerator(configuration);
         entityObjectGenerator.generate();
         ConverterObjectGenerator.generate(configuration);

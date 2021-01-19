@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -96,24 +97,16 @@ public class MavenPomGenerator {
         pojo.setArtifactId(artifactId);
         pojo.setArtifactVersion(artifactVersion);
 
+
+
         String xmlSource = MustacheRunner.build("rest/mvn.mustache", pojo);
         FileUtils.writeStringToFile(new File(outputDir + "pom.xml"), xmlSource, "utf-8");
+
+        InputStream gitIgnore = MavenPomGenerator.class.getClassLoader().getResourceAsStream("rest/gitignore.mustache");
+        FileUtils.copyInputStreamToFile(gitIgnore, new File(outputDir + ".gitignore"));
+
     }
 
-    private static void generateMvnConfigurationObject(String artifactGroupId, String artifactIdParent, String artifactId, String artifactVersion, String outputDir) throws IOException {
-        MavenMustacheChildren pojo = new MavenMustacheChildren();
-        pojo.setArtifactGroupId(artifactGroupId);
-        pojo.setArtifactParentId(artifactIdParent);
-        pojo.setArtifactVersion(artifactVersion);
-        pojo.setArtifactId(artifactId);
-
-
-        Path path = Paths.get(outputDir + "/src/main/java/../../test/java/");
-        Files.createDirectories(path);
-
-        String xmlSource = MustacheRunner.build("rest/mvnConfiguration.mustache", pojo);
-        FileUtils.writeStringToFile(new File(outputDir + "pom.xml"), xmlSource, "utf-8");
-    }
 
     private static void generateMvnInterfacesObject(String artifactGroupId, String artifactIdParent, String artifactId, String artifactVersion, List<MavenMustache> dependencies, String outputDir) throws IOException {
         MavenMustacheChildren pojo = new MavenMustacheChildren();

@@ -107,14 +107,12 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <repository>docker.modinter.com.ec:5000/{{artifactParentId}}</repository>
+                            <repository>{{artifactParentId}}</repository>
                             <tag>${{=<% %>=}}{project.version}<%={{ }}=%></tag>
                             <useMavenSettingsForAuth>false</useMavenSettingsForAuth>
                             <googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
                             <buildArgs>
-                                <appJar>${{=<% %>=}}{project.artifactId}<%={{ }}=%>-${{=<% %>=}}
-                                    {project.version}<%={{ }}=%>-exec.jar
-                                </appJar>
+                                <appJar>${{=<% %>=}}{project.artifactId}<%={{ }}=%>-${{=<% %>=}}{project.version}<%={{ }}=%>-exec.jar</appJar>
                             </buildArgs>
                         </configuration>
                     </plugin>
