@@ -62,6 +62,10 @@ public class TypeAttribute {
         return attrTypeName;
     }
 
+    public String getTypeCode() {
+        return typeCode;
+    }
+
     public String getJavaDataType() {
         if (multiType == 1) {
             if (TypeMapper.ORACLE_COLLECTION.equals(typeCode)) {

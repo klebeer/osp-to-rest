@@ -165,6 +165,13 @@ public class TypeDao {
                     types.add(type.getCollectionBaseType());
                     getSubTypesList(types, type.getCollectionBaseType());
                 });
+
+        typeAttributes.stream().
+                filter(entry -> entry.getTypeCode() != null && !entry.getTypeCode().isEmpty()).
+                forEach(type -> {
+                    types.add(type.getAttrTypeName());
+                    getSubTypesList(types, type.getAttrTypeName());
+                });
         return types;
     }
 }
