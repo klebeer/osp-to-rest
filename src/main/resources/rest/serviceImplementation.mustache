@@ -25,7 +25,7 @@ private DataSource dataSource;
 
 {{#procedureList}}
 
-    private {{storedProcedureClassName}}Out {{javaProcedureName}}({{storedProcedureClassName}}In ctx, Connection connection) {
+    private {{storedProcedureClassName}}Out {{javaProcedureName}}( {{#hasInParameters}}{{storedProcedureClassName}}In ctx, {{/hasInParameters}}Connection connection) {
     try {
     final CallableStatement ocs = connection.prepareCall({{& callString}});
     try {
@@ -67,9 +67,9 @@ private DataSource dataSource;
 
 
     {{^hasResultSetParam}}
-        public  {{storedProcedureClassName}}Out {{javaProcedureName}}({{storedProcedureClassName}}In input) {
+        public  {{storedProcedureClassName}}Out {{javaProcedureName}}({{#hasInParameters}} {{storedProcedureClassName}}In input  {{/hasInParameters}}) {
         try (Connection conn = dataSource.getConnection()) {
-        return {{javaProcedureName}}(input,  conn);
+        return {{javaProcedureName}}({{#hasInParameters}}input,  {{/hasInParameters}}conn);
         } catch (SQLException e) {
         throw new StoredProcedureCallException(e);
         }

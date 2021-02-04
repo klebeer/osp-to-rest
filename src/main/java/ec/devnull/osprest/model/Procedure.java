@@ -162,6 +162,10 @@ public class Procedure {
         return false;
     }
 
+    public boolean hasInParameters() {
+        return this.argumentList.stream().anyMatch(ProcedureArgument::isInParam);
+    }
+
     public static class Builder {
         Procedure p = new Procedure();
 
