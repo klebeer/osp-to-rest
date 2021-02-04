@@ -7,6 +7,7 @@ import {{builderPackage}}.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +22,14 @@ private {{javaClassName}} {{javaVariableName}};
 {{#procedureList}}
     {{^hasResultSetParam}}
         @Operation(summary = "{{javaProcedureName}}", description = "{{procedureDescription}}" )
+        {{#hasInParameters}}
         @PostMapping("/{{javaProcedureName}}")
-        {{storedProcedureClassName}}Out {{javaProcedureName}}(@RequestBody {{storedProcedureClassName}}In input){
-        return {{javaVariableName}}.{{javaProcedureName}}(input);
+        {{/hasInParameters}}
+        {{^hasInParameters}}
+        @GetMapping("/{{javaProcedureName}}")
+        {{/hasInParameters}}
+        {{storedProcedureClassName}}Out {{javaProcedureName}}({{#hasInParameters}}@RequestBody {{storedProcedureClassName}}In input{{/hasInParameters}}){
+        return {{javaVariableName}}.{{javaProcedureName}}({{#hasInParameters}}input{{/hasInParameters}});
         }
     {{/hasResultSetParam}}
 {{/procedureList}}

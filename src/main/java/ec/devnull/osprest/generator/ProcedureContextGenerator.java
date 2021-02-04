@@ -82,7 +82,9 @@ public final class ProcedureContextGenerator {
         List<ProcedureArgument> argumentListIn = argumentList.stream().filter(ProcedureArgument::isInParam).collect(Collectors.toList());
         procedure.setArgumentList(argumentListIn);
 
-        buildPojo(pojoClassName + "In", packageName + ".in", objectPackage, outputDir + "in/", procedure);
+        if (!argumentListIn.isEmpty()){
+            buildPojo(pojoClassName + "In", packageName + ".in", objectPackage, outputDir + "in/", procedure);
+        }
 
         List<ProcedureArgument> argumentListOut = argumentList.stream().filter(ProcedureArgument::isOutParam).collect(Collectors.toList());
         procedure.setArgumentList(argumentListOut);

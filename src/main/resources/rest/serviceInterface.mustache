@@ -19,7 +19,7 @@ public interface {{javaClassName}} {
 
 {{#procedureList}}
     {{^hasResultSetParam}}
-        {{storedProcedureClassName}}Out {{javaProcedureName}}({{storedProcedureClassName}}In input);
+        {{storedProcedureClassName}}Out {{javaProcedureName}}( {{#hasInParameters}} {{storedProcedureClassName}}In input{{/hasInParameters}});
     {{/hasResultSetParam}}
 {{/procedureList}}
 
