@@ -116,7 +116,7 @@ public class TypeMapper {
 
 
     public String getJavaType(String oracleTypeName, int scale) {
-        // exception: if type is NUMBER with scale between o to 9
+        // exception: if type is NUMBER with scale between 0 to 9
         if (oracleTypeName.equals(ORACLE_NUMBER) && scale > 0 && scale <= 9 ) {
             return JAVA_INTEGER;
         }
