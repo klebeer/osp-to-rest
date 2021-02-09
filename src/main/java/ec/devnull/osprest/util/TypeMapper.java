@@ -116,13 +116,13 @@ public class TypeMapper {
 
 
     public String getJavaType(String oracleTypeName, int scale) {
-        // exception: if tpye is NUMBER with scale 0
-        if (oracleTypeName.equals(ORACLE_NUMBER) && scale == 0) {
+        // exception: if type is NUMBER with scale between o to 9
+        if (oracleTypeName.equals(ORACLE_NUMBER) && scale > 0 && scale <= 9 ) {
             return JAVA_INTEGER;
         }
 
-        // exception: if tpye is NUMBER with scale != 0
-        if (oracleTypeName.equals(ORACLE_NUMBER) && scale != 0) {
+        // exception: if type is NUMBER with scale greater than 9 or scale equals zero
+        if (oracleTypeName.equals(ORACLE_NUMBER) && (scale == 0 ||scale > 9)) {
             return JAVA_BIGDECIMAL;
         }
 
